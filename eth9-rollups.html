@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0Gwhitepaper@yyy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'black-custom': '#0A0A0A',
+                        'matcha': '#8AA899',
+                        'linen-gray': '#E0E0D1',
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            
+            .title-effect {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .card-hover {
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 20px -5px rgba(138, 168, 153, 0.1);
+            }
+            .social-icon {
+                transition: all 0.3s ease;
+            }
+            .social-icon:hover {
+                transform: translateY(-5px) scale(1.1);
+            }
+            .photo-frame {
+                object-fit: cover;
+            }
+            .article-tag {
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+            .article-tag:hover {
+                transform: translateY(-3px) scale(1.05);
+                filter: brightness(1.2);
+            }
+            .floating {
+                transition: all 0.4s ease;
+                cursor: pointer;
+            }
+            .floating:hover {
+                transform: translateY(-20px) scale(1.1);
+                box-shadow: 0 10px 25px rgba(138, 168, 153, 0.3);
+            }
+            .mindmap-node {
+                position: relative;
+                padding: 0.5rem;
+                margin-bottom: 0.75rem;
+                border-radius: 4px;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                cursor: default;
+                overflow: hidden;
+            }
+            
+            .mindmap-node:hover {
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: 0 4px 12px rgba(138, 168, 153, 0.25);
+            }
+            
+            .mindmap-node::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+                transition: left 0.5s;
+            }
+            
+            .mindmap-node:hover::before {
+                left: 100%;
+            }
+            .mindmap-main {
+                background-color: rgba(138, 168, 153, 0.15);
+                border-left: 3px solid #8AA899;
+            }
+            
+            .mindmap-main:hover {
+                background-color: rgba(138, 168, 153, 0.25);
+                border-left-color: #a0c1af;
+            }
+            
+            .mindmap-secondary {
+                background-color: rgba(138, 168, 153, 0.08);
+                border-left: 2px solid #8AA899;
+                margin-left: 1rem;
+            }
+            
+            .mindmap-secondary:hover {
+                background-color: rgba(138, 168, 153, 0.2);
+                border-left-color: #a0c1af;
+            }
+            
+            .mindmap-tertiary {
+                background-color: rgba(138, 168, 153, 0.05);
+                border-left: 2px solid rgba(138, 168, 153, 0.6);
+                margin-left: 2rem;
+            }
+            
+            .mindmap-tertiary:hover {
+                background-color: rgba(138, 168, 153, 0.15);
+                border-left-color: #a0c1af;
+            }
+            .filter-item {
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+            .filter-item:hover, .filter-item.active {
+                background-color: rgba(138, 168, 153, 0.3);
+                transform: translateX(3px);
+            }
+            .back-button {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.35rem 0.85rem;
+                border-radius: 999px;
+                background-color: rgba(138, 168, 153, 0.15);
+                color: #8AA899;
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-decoration: none;
+                border: 1px solid rgba(138, 168, 153, 0.3);
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            .back-button:hover {
+                transform: translateY(-2px);
+                background-color: rgba(138, 168, 153, 0.25);
+                box-shadow: 0 4px 12px rgba(138, 168, 153, 0.2);
+            }
+            .contact-icon {
+                color: #8AA899;
+                font-size: 0.9rem;
+                margin-left: 0.3rem;
+                cursor: pointer;
+            }
+            .profile-card {
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+            }
+            .profile-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 24px rgba(138, 168, 153, 0.2);
+                border-color: rgba(138, 168, 153, 0.5);
+            }
+            .profile-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(138, 168, 153, 0.1), transparent);
+                transition: left 0.7s ease;
+            }
+            .profile-card:hover::before {
+                left: 100%;
+            }
+            .name-text {
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+                display: inline-block;
+            }
+            .name-text:hover {
+                color: #8AA899;
+            }
+            .name-text::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 1.5px;
+                background-color: #8AA899;
+                transition: width 0.3s ease;
+            }
+            .name-text:hover::after {
+                width: 100%;
+            }
+            .profile-description {
+                transition: all 0.3s ease;
+                cursor: default;
+            }
+            .profile-description:hover {
+                color: #fff;
+                transform: scale(1.02);
+                letter-spacing: 0.5px;
+            }
+        }
+    </style>
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        .ultra-compact {
+            font-size: 0.65rem;
+            line-height: 1.1;
+            margin: 0;
+            padding: 0;
+        }
+        .tight-margin {
+            margin-top: 0.05rem !important;
+            margin-bottom: 0.15rem !important;
+        }
+        .tag-style {
+            font-size: 0.75rem !important;
+            padding: 0.15rem 0.4rem !important;
+            margin: 0.15rem !important;
+        }
+        .card-padding {
+            padding: 0.5rem !important;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .category-style {
+            font-size: 0.65rem !important;
+            margin-bottom: 0 !important;
+        }
+        .date-style {
+            font-size: 0.8rem !important;
+        }
+        .article-footer {
+            display: none;
+        }
+        .project-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .filter-container {
+            padding: 0.5rem 0;
+            margin-bottom: 1rem;
+            border-top: 1px solid rgba(138, 168, 153, 0.2);
+            border-bottom: 1px solid rgba(138, 168, 153, 0.2);
+        }
+        .filter-item {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            background-color: rgba(138, 168, 153, 0.1);
+            color: #8AA899;
+        }
+        .tag-matcha {
+            background-color: rgba(138, 168, 153, 0.2) !important;
+            color: #8AA899 !important;
+        }
+        .tag-linen {
+            background-color: rgba(224, 224, 209, 0.2) !important;
+            color: #E0E0D1 !important;
+        }
+        .article-detail-content {
+            line-height: 1.2;
+            font-size: 0.9rem;
+        }
+        .article-detail-content p {
+            margin-bottom: 1rem;
+        }
+        .article-detail-content h2 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            color: #8AA899;
+        }
+        .article-detail-content h3 {
+            margin-top: 1.1rem;
+            margin-bottom: 0.55rem;
+            font-size: 1rem;
+            color: #E0E0D1;
+        }
+        .article-detail-content code {
+            background-color: rgba(138, 168, 153, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Consolas', monospace;
+            color: #8AA899;
+        }
+        .article-detail-content pre {
+            background-color: rgba(138, 168, 153, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        .article-detail-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        .article-detail-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        .article-detail-content blockquote {
+            border-left: 3px solid #8AA899;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: #E0E0D1;
+        }
+        .article-detail-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        .article-detail-content th, .article-detail-content td {
+            border: 1px solid rgba(138, 168, 153, 0.3);
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+        .article-detail-content th {
+            background-color: rgba(138, 168, 153, 0.1);
+            color: #8AA899;
+        }
+        .article-detail-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .article-detail-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blockchain-tag {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .blockchain-tag:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(138, 168, 153, 0.3);
+        }
+        
+        .blockchain-tag.active {
+            background-color: rgba(138, 168, 153, 0.4) !important;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 2px 8px rgba(138, 168, 153, 0.4);
+        }
+        
+        .blockchain-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .blockchain-tag:hover::before {
+            left: 100%;
+        }
+        
+        .tag-glow {
+            animation: tagGlow 2s ease-in-out infinite alternate;
+        }
+        
+        .tag-pulse {
+            animation: tagPulse 1.5s ease-in-out;
+        }
+        
+        @keyframes tagGlow {
+            0% { box-shadow: 0 0 5px rgba(138, 168, 153, 0.3); }
+            100% { box-shadow: 0 0 15px rgba(138, 168, 153, 0.6); }
+        }
+        
+        @keyframes tagPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .wave-avatar {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 0.5rem;
+            border: 3px solid #8AA899;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(138, 168, 153, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .wave-avatar::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, transparent, rgba(138, 168, 153, 0.2), transparent);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            transform: rotate(15deg);
+        }
+
+        .wave-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.375rem;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .wave-avatar:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 8px 20px rgba(138, 168, 153, 0.4);
+            border-color: #a0c1af;
+        }
+        
+        .wave-avatar:hover::before {
+            opacity: 1;
+            animation: shineEffect 1.5s ease-in-out infinite;
+        }
+        
+        .wave-avatar:hover img {
+            transform: scale(1.1);
+        }
+        
+        @keyframes shineEffect {
+            0%, 100% {
+                opacity: 0;
+                transform: translateX(-100%) rotate(15deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%) rotate(15deg);
+            }
+        }
+        
+        .wave-avatar:active {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(138, 168, 153, 0.3);
+        }
+
+        .sketch-icon {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sketch-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+            color: #fff;
+            background-color: rgba(138, 168, 153, 0.3);
+            box-shadow: 0 4px 8px rgba(138, 168, 153, 0.3);
+        }
+
+        .sketch-icon:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 2px 4px rgba(138, 168, 153, 0.2);
+        }
+
+        .sketch-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sketch-icon:hover::before {
+            left: 100%;
+        }
+
+        .sketch-icon svg {
+            transition: all 0.3s ease;
+        }
+
+        .sketch-icon:hover svg {
+            transform: scale(1.15);
+        }
+    </style>
+</head>
+<body class="bg-black-custom text-white min-h-screen overflow-x-hidden relative">
+    <div id="bubbles-container" class="fixed inset-0 w-full h-full pointer-events-none z-0"></div>
+
+    <div class="flex flex-col md:flex-row min-h-screen relative z-10">
+        <div class="w-full md:w-3/4 p-4 md:p-6">
+            <div class="mb-4 mt-2 flex flex-col sm:flex-row sm:items-center gap-2">
+                <a href="index.html" class="back-button self-start mb-2 sm:mb-0">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>Back</span>
+                </a>
+                
+                <div class="flex items-center gap-2 p-2 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex-1 profile-card">
+
+                   <div class="wave-avatar">
+                        <img src="4.jpg" alt="yonallyyang">
+                    </div>
+                    
+                    <div class="flex-1 min-w-0">
+                        
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-sm font-bold text-white name-text">
+                                yyy.@yonallyyang
+                            </h1>
+                            
+                            
+                            <a href="https://twitter.com/yonallyyang" class="text-gray-400 sketch-icon" title="Twitter" aria-label="Twitter">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                                </svg>
+                            </a>
+                            
+                            <a href="https://github.com/yonallyyang" class="text-gray-400 sketch-icon" title="GitHub" aria-label="GitHub">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                </svg>
+                            </a>
+                            
+                            <a href="mailto:yonallyyang@outlook.com" class="text-gray-400 sketch-icon" title="Email" aria-label="Email">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="16" rx="2" ry="2"/>
+                                    <polyline points="3 8 12 13 21 8"/>
+                                </svg>
+                            </a>
+                        </div>
+            
+                        <p class="text-xs text-matcha mt-0.5 mb-2 profile-description inline-block">
+                            Blockchain & Decentralized Systems & Computer Science & Occult Explorer
+                        </p>
+                        <div class="flex flex-wrap gap-1" id="blockchain-tags">
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="DeFi">DeFi</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="NFT">NFT</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="DAO">DAO</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Web3">Web3</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Smart Contracts">Smart Contracts</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Layer2">Layer2</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="ZK-Proofs">ZK-Proofs</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="DID">DID</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Metaverse">Metaverse</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="GameFi">GameFi</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="DePIN">DePIN</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="RWA">RWA</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Oracle">Oracle</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Cross-chain">Cross-chain</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Privacy">Privacy</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Staking">Staking</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Governance">Governance</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Tokenomics">Tokenomics</span>
+                            <span class="blockchain-tag bg-matcha/20 hover:bg-matcha/30 text-matcha text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="MEV">MEV</span>
+                            <span class="blockchain-tag bg-linen-gray/20 hover:bg-linen-gray/30 text-linen-gray text-[0.7rem] px-1.5 py-0.5 rounded-full cursor-pointer transition-all duration-300" data-tag="Consensus">Consensus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文章内容区域 -->
+            <article class="bg-white/5 backdrop-blur-md rounded-lg p-6 border border-white/10 mb-8">
+                <div class="flex flex-wrap items-center gap-1 mb-4">
+                    <span class="article-tag tag-matcha rounded-full tag-style font-bold whitespace-nowrap">Decentralized AI</span>
+                    <span class="article-tag tag-linen rounded-full tag-style font-bold whitespace-nowrap">Blockchain</span>
+                    <span class="article-tag tag-matcha rounded-full tag-style font-bold whitespace-nowrap">0G</span>
+                    <!-- 日期、字数统计、阅读时间 - 图标清晰可见 -->
+                    <div class="text-gray-400 date-style flex items-center gap-3 ml-auto">
+                        <span class="flex items-center gap-1"><i class="fa fa-calendar text-matcha"></i> 2025.8.15</span>
+                        <span class="flex items-center gap-1"><i class="fa fa-file-text-o text-matcha"></i> 1.2k words</span>
+                        <span class="flex items-center gap-1"><i class="fa fa-clock-o text-matcha"></i> 10 min read</span>
+                    </div>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-bold mb-6 title-effect bg-gradient-to-r from-matcha to-linen-gray">
+    Rollups 的原理与类型
+</h1>
+<p class="text-lg text-gray-400 mb-6">
+    解析以太坊Layer 2核心扩展方案，探索乐观型与零知识型Rollups的技术差异
+</p>
+<div class="article-detail-content">
+    <p>如何在不牺牲 <strong>L1</strong> 强大信任的前提下，实现交易的大规模扩展。这就是 <strong>Layer 2</strong> 的使命，特别是 <strong>Rollups</strong> 技术。</p>
+    <p>我们将深入研究 <strong>Rollups</strong> 的核心原理，以及两种主要类型在信任模型上的精妙差异。</p>
+
+    <h2>一、 Rollups 的核心逻辑：安全性的继承</h2>
+    <p><strong>Rollups</strong> 被认为是目前以太坊最可行的扩展方案，因为它遵循一个关键原则：将执行计算移到 <strong>L2</strong>，将数据存储和安全性保证保留在 <strong>L1</strong>。</p>
+
+    <h3>1. 工作原理：压缩、执行与数据可用性</h3>
+    <p>脱链执行 (Off-Chain Execution)： 数千笔交易在 <strong>L2</strong> 网络上快速、廉价地执行，拥有自己的 <strong>L2 EVM</strong> 或兼容环境。</p>
+    <p>数据压缩与批处理 (Batching)： <strong>L2</strong> 的一个重要实体（通常称为排序器/Sequencer）将这数千笔 <strong>L2</strong> 交易打包、压缩成一个极小的数据包。</p>
+    <p>数据回传 <strong>L1</strong>： <strong>Sequencer</strong> 只将两样东西提交给以太坊主网 (<strong>L1</strong> 的智能合约)：</p>
+    <p>压缩后的交易数据： 用于保证数据可用性 (Data Availability)，确保任何人都可以在 <strong>L1</strong> 上重建 <strong>L2</strong> 的状态。</p>
+    <p>状态根/证明： 一个密码学证明，证明 <strong>L2</strong> 执行的结果是有效的。</p>
+    <p>安全性继承： <strong>L1</strong> 上的 <strong>Rollup</strong> 合约负责验证证明和处理争议。这使得 <strong>Rollup</strong> 的安全性从根本上继承了以太坊主网的最终性。</p>
+
+    <h3>2. 挑战与创新：信任模型的差异</h3>
+    <p><strong>Rollups</strong> 的类型主要取决于它们如何向 <strong>L1</strong> 证明 <strong>L2</strong> 交易是有效的。这导致了两种截然不同的信任模型。</p>
+
+    <h2>二、 乐观型 Rollups (Optimistic Rollups)</h2>
+    <p>顾名思义，乐观型 <strong>Rollups</strong>（如 <strong>Optimism</strong>、<strong>Arbitrum</strong>）采用<strong>“先假设正确，后验证”</strong>的哲学。</p>
+    <p>信任模型： 乐观推定 (Optimistic Assumption)。排序器提交 <strong>L2</strong> 状态时，<strong>L1</strong> 上的合约默认接受其提交的状态根是正确的，不会立即进行计算验证。</p>
+    <p>欺诈证明 (Fraud Proofs)： 为了防止排序器作恶，系统引入了一个挑战期 (Dispute Window)（通常为 7 天）。</p>
+    <p>在这 7 天内，任何人都可以在 <strong>L1</strong> 上提交欺诈证明。如果有人发现 <strong>L2</strong> 的状态转换是错误的，他们可以通过在 <strong>L1</strong> 上重跑相关的 <strong>L2</strong> 交易来证明欺诈。</p>
+    <p>如果欺诈被证明，恶意的 <strong>Sequencer</strong> 将受到经济惩罚（Slashing），并且状态回滚到正确版本。</p>
+    <p>优点： 技术实现相对简单，<strong>EVM</strong> 兼容性高。</p>
+    <p>缺点： 用户从 <strong>L2</strong> 提款到 <strong>L1</strong> 需要等待完整的 7 天挑战期（除非使用流动性中继）。</p>
+
+    <h2>三、 零知识 Rollups (ZK-Rollups)</h2>
+    <p><strong>ZK-Rollups</strong>（如 <strong>zkSync</strong>、<strong>StarkNet</strong>）采用<strong>“先证明正确，后接受”</strong>的哲学，是当前最前沿的密码学技术。</p>
+    <p>信任模型： 数学上的确定性 (Cryptographic Certainty)。排序器（或证明者）在提交 <strong>L2</strong> 状态时，必须同时附带一个零知识证明 (<strong>Zero-Knowledge Proof</strong>)。</p>
+    <p>零知识证明： 这是一个极其复杂的密码学结构，它证明了以下事实：“我知道 <strong>L2</strong> 的交易数据，并且这些数据被正确执行了，从而得出了新的状态根，但我无需透露任何原始交易数据。”</p>
+    <p>验证机制： <strong>L1</strong> 上的合约立即验证这个零知识证明。验证是计算密集但快速的。如果证明有效，<strong>L1</strong> 立即接受这个新的 <strong>L2</strong> 状态。</p>
+    <p>优点：</p>
+    <p>即时最终性： 一旦 <strong>L1</strong> 验证了证明，<strong>L2</strong> 状态就立即被最终确定，无需等待 7 天的挑战期。</p>
+    <p>隐私性潜力： 零知识证明在未来具有保护交易内容的潜力。</p>
+    <p>缺点： 零知识证明的生成过程本身计算成本高昂且复杂，且实现 <strong>EVM</strong> 的完全兼容性（<strong>zkEVM</strong>）在技术上极具挑战性。</p>
+
+    <h2>四、 Rollups 的未来与 L1 的进化</h2>
+    <p>随着 <strong>Rollups</strong> 的成熟，以太坊主网 <strong>L1</strong> 也在进行相应的改造，以更好地支持 <strong>L2</strong>。</p>
+    <p><strong>EIP-4844</strong> (Proto-Danksharding)： 这是 <strong>L1</strong> 的关键升级。它引入了一种新的临时数据存储空间（称为 Blobs），专门用于降低 <strong>Rollup</strong> 向 <strong>L1</strong> 提交数据时的成本。</p>
+    <p>数据可用性抽样 (<strong>DAS</strong> - Data Availability Sampling)： 最终的 <strong>Danksharding</strong> 愿景是让 <strong>L1</strong> 通过随机抽样验证 <strong>Rollups</strong> 数据的完整性，从而允许 <strong>Rollups</strong> 在保证安全的前提下，提交更大的数据量，进一步提升 <strong>L2</strong> 的吞吐量和效率。</p>
+
+    <h2>小结：</h2>
+    <p><strong>Rollups</strong> 通过将执行层与结算层分离，成功地扩展了以太坊。我们理解了乐观型依赖于欺诈证明和 7 天挑战期，而 <strong>ZK</strong> 型依赖于零知识证明实现即时最终性。<strong>Rollups</strong> 的发展和 <strong>L1</strong> 的适配（如 <strong>EIP-4844</strong>），共同构成了以太坊模块化扩展的宏伟蓝图。</p>
+</div>
+
+<div class="w-full md:w-1/4 p-4 md:p-6 border-t md:border-t-0 md:border-l border-white/10">
+    <div class="sticky top-4">
+        <div class="mb-8">
+            <h3 class="text-sm font-bold text-white mb-3 flex items-center">
+                <<i class="fa fa-tags text-matcha mr-2"></</i> TAGS
+            </h3>
+            <div class="flex flex-wrap gap-2">
+                <span class="article-tag tag-matcha rounded-full tag-style font-bold whitespace-nowrap">Rollups</span>
+                <span class="article-tag tag-linen rounded-full tag-style font-bold whitespace-nowrap">Layer 2</span>
+                <span class="article-tag tag-matcha rounded-full tag-style font-bold whitespace-nowrap">Optimistic Rollups</span>
+                <span class="article-tag tag-linen rounded-full tag-style font-bold whitespace-nowrap">ZK-Rollups</span>
+                <span class="article-tag tag-matcha rounded-full tag-style font-bold whitespace-nowrap">EIP-4844</span>
+                <span class="article-tag tag-linen rounded-full tag-style font-bold whitespace-nowrap">以太坊扩展</span>
+                <span class="article-tag tag-matcha rounded-full tag-style font-bold whitespace-nowrap">欺诈证明</span>
+                <span class="article-tag tag-linen rounded-full tag-style font-bold whitespace-nowrap">零知识证明</span>
+            </div>
+        </div>
+
+        <div class="bg-white/5 backdrop-blur-md rounded-lg p-4 border border-white/10">
+            <h3 class="text-sm font-bold text-white mb-3 flex items-center">
+                <<i class="fa fa-sitemap text-matcha mr-2"></</i> MIND MAP
+            </h3>
+            <div class="text-xs space-y-1">
+                <div class="mindmap-node mindmap-main">
+                    <p class="font-bold text-matcha">Rollups：以太坊L2扩展核心</p>
+                </div>
+                <div class="mindmap-node mindmap-secondary">
+                    <p class="font-bold">核心原理</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>L2脱链执行+L1安全继承</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>交易批处理与数据压缩</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>状态根+交易数据回传L1</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>数据可用性保障</p>
+                </div>
+                <div class="mindmap-node mindmap-secondary">
+                    <p class="font-bold">乐观型Rollups</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>先假设正确，后验证</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>欺诈证明（Fraud Proofs）</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>7天挑战期+Slashing惩罚</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>EVM兼容性高，提款慢</p>
+                </div>
+                <div class="mindmap-node mindmap-secondary">
+                    <p class="font-bold">ZK-Rollups</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>先证明正确，后接受</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>零知识证明（ZK-Proof）</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>即时最终性，无等待期</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>zkEVM兼容性挑战</p>
+                </div>
+                <div class="mindmap-node mindmap-secondary">
+                    <p class="font-bold">未来与进化</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>EIP-4844（Proto-Danksharding）</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>Blobs临时数据存储</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>DAS数据可用性抽样</p>
+                </div>
+                <div class="mindmap-node mindmap-tertiary">
+                    <p>模块化扩展蓝图</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+    <script>
+        function createBubbles() {
+            const container = document.getElementById('bubbles-container');
+            if (!container) {
+                console.error('未找到气泡容器！');
+                return;
+            }
+            
+            const bubbleCount = 9;
+            container.innerHTML = '';
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                const size = Math.random() * 300 + 150;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 20 + 15;
+                
+                const colors = [
+                    'linear-gradient(135deg, #8AA899 0%, #8AA899 100%)',
+                    'linear-gradient(135deg, #8AA899 0%, #8AA899 100%)'
+                ];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                bubble.style.cssText = `
+                    position: absolute !important;
+                    width: ${size}px !important;
+                    height: ${size}px !important;
+                    left: ${posX}% !important;
+                    top: ${posY}% !important;
+                    background: ${color} !important;
+                    border-radius: 50% !important;
+                    filter: blur(1px) !important;
+                    animation: floatBubble ${duration}s ease-in-out ${delay}s infinite !important;
+                    opacity: ${0.08 + Math.random() * 0.12} !important;
+                    z-index: -1 !important;
+                    pointer-events: none !important;
+                `;
+                
+                container.appendChild(bubble);
+            }
+            
+            container.style.display = 'none';
+            container.offsetHeight;
+            container.style.display = 'block';
+        }
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatBubble {
+                0% { transform: translate(0, 0) rotate(0deg); opacity: 0.1; }
+                25% { transform: translate(20px, -10px) rotate(5deg); opacity: 0.15; }
+                50% { transform: translate(40px, 0) rotate(0deg); opacity: 0.1; }
+                75% { transform: translate(20px, 10px) rotate(-5deg); opacity: 0.15; }
+                100% { transform: translate(0, 0) rotate(0deg); opacity: 0.1; }
+            }
+            .bubble {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(1px);
+                z-index: -1;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        function initializeBubbles() {
+            try {
+                createBubbles();
+                const container = document.getElementById('bubbles-container');
+                if (container && container.children.length === 0) {
+                    throw new Error('气泡创建失败');
+                }
+            } catch (error) {
+                console.error('初始化气泡失败:', error);
+                setTimeout(createBubbles, 500);
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeBubbles);
+        } else {
+            initializeBubbles();
+        }
+        
+        window.addEventListener('load', () => {
+            const container = document.getElementById('bubbles-container');
+            if (container && container.children.length === 0) {
+                setTimeout(createBubbles, 1000);
+            }
+        });
+
+        function initBlockchainTags() {
+            const tagsContainer = document.getElementById('blockchain-tags');
+            if (!tagsContainer) return;
+
+            const tags = tagsContainer.querySelectorAll('.blockchain-tag');
+            
+            tags.forEach(tag => {
+                tag.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.05)';
+                    this.style.boxShadow = '0 4px 12px rgba(138, 168, 153, 0.3)';
+                });
+                
+                tag.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = '';
+                        this.style.boxShadow = '';
+                    }
+                });
+                
+                tag.addEventListener('click', function() {
+                    tags.forEach(t => {
+                        t.classList.remove('active');
+                        t.classList.remove('tag-pulse');
+                    });
+                    
+                    this.classList.add('active');
+                    this.classList.add('tag-pulse');
+                    
+                    console.log('Selected blockchain tag:', this.dataset.tag);
+                    
+                    setTimeout(() => {
+                        this.classList.remove('tag-pulse');
+                    }, 1500);
+                });
+            });
+            
+            function randomGlow() {
+                const inactiveTags = Array.from(tags).filter(tag => !tag.classList.contains('active'));
+                if (inactiveTags.length === 0) return;
+                
+                const randomTag = inactiveTags[Math.floor(Math.random() * inactiveTags.length)];
+                randomTag.classList.add('tag-glow');
+                
+                setTimeout(() => {
+                    randomTag.classList.remove('tag-glow');
+                }, 2000);
+            }
+            
+            function scheduleNextGlow() {
+                const delay = 5000 + Math.random() * 5000;
+                setTimeout(() => {
+                    randomGlow();
+                    scheduleNextGlow();
+                }, delay);
+            }
+            
+            scheduleNextGlow();
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initBlockchainTags();
+        });
+    </script>
+</body>
+</html>
